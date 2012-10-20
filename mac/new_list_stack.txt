@@ -1,0 +1,3 @@
+# Settings for an alternative "list view" for the documents on the dock.
+
+defaults write com.apple.dock use-new-list -bool YES

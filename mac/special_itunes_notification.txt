@@ -1,0 +1,3 @@
+# A special view for the iTunes notification window on the dock.
+
+defaults write.com.apple.dock itunes-notifications -bool TRUE

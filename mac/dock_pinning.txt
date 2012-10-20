@@ -1,0 +1,5 @@
+# Where to pin the dock: in the middle as it is by default or on the left or right.
+
+defaults write com.apple.dock pinning -string "start"
+defaults write com.apple.dock pinning -string "middle"
+defaults write com.apple.dock pinning -string "end"

@@ -1,0 +1,3 @@
+# Highlight when you hover over items in the dock stack/list/grid view.
+
+defaults write com.apple.dock mouse-over-hilite-stack -boolean yes
