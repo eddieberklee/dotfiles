@@ -1,3 +1,6 @@
+syntax on
+set mouse=a
+
 " Type jj while in insert mode to immediately switch to command line.
 inoremap jj <Esc>
 
@@ -9,4 +12,12 @@ set tabstop=2
 map <Enter> o<Esc>
 map <S-Enter> O<Esc>
 
+" Turn off the highlighting for current search.
+map <C-n> :noh<CR>
 
+" Indenting stuff.
+filetype indent on
+set smartindent
+
+" Number lines.
+set number
