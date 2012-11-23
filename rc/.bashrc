@@ -6,15 +6,15 @@ export PATH="$PATH:/usr/local/rescomp/bin:/usr/local/rescomp/sbin"
 
 # Default Rescomp .bashrc
 if [ -f /rc/etc/dotfiles/system.bashrc ]; then
-        source /rc/etc/dotfiles/system.bashrc
+	source /rc/etc/dotfiles/system.bashrc
 fi
 
 # system-wide aliases
 # We like ls with colors, but it's different on FreeBSD vs Linux
 if [[ FreeBSD == $(uname) ]] ; then
-        alias ls='ls -GF'
+	alias ls='ls -GF'
 else    
-        alias ls='ls --color'
+	alias ls='ls --color'
 fi
 
 # Show only the defined mailboxes when you open mutt
@@ -26,12 +26,12 @@ alias sl="ls"
 alias L="ls -al"
 alias wifiaux0="ssh wifi-aux-0.rescomp.berkeley.edu"
 cl() {
-    cd $1
-    ls
+	cd $1
+	ls
 }
 vil() {
-    vi $1
-    ls
+	vi $1
+	ls
 }
 alias hal="ssh elee@hal.rescomp.berkeley.edu"
 alias pandora="ssh elee@pandora.rescomp.berkeley.edu"
@@ -57,50 +57,37 @@ alias mine2dev="sudo cp -r ~/core/www/sec-cgi-bin/logout/*.cgi /usr/local/ist/ww
 
 
 create() {
-    sudo touch $1
-    sudo chmod 777 $1
+	sudo touch $1
+	sudo chmod 777 $1
 }
 
 d() {
-    diff $1 /usr/local/ist/lib/site_perl/shared/$1
+	diff $1 /usr/local/ist/lib/site_perl/shared/$1
 }
 
 propagate() {
-    echo "pandora"
-    scp $1 elee@pandora.net.berkeley.edu:$1
-    echo "hal"
-    scp $1 elee@hal.rescomp.berkeley.edu:$1
-    echo "nac-dev-1"
-    scp $1 elee@nac-dev-1.net.berkeley.edu:$1
-    echo "dev-dhcp-1"
-    scp $1 elee@dev-dhcp-1.net.berkeley.edu:$1
-    echo "dev-dhcp-2"
-    scp $1 elee@dev-dhcp-2.net.berkeley.edu:$1
+	echo "pandora"
+	scp $1 elee@pandora.net.berkeley.edu:$1
+	echo "hal"
+	scp $1 elee@hal.rescomp.berkeley.edu:$1
+	echo "nac-dev-1"
+	scp $1 elee@nac-dev-1.net.berkeley.edu:$1
+	echo "dev-dhcp-1"
+	scp $1 elee@dev-dhcp-1.net.berkeley.edu:$1
+	echo "dev-dhcp-2"
+	scp $1 elee@dev-dhcp-2.net.berkeley.edu:$1
 }
 
-nova() {
-    ssh $1@nova.cs.berkeley.edu
-}
-fiesta() {
-    ssh $1@fiesta.cs.berkeley.edu
-}
-cory() {
-    ssh $1@cory.eccs.berkeley.edu
+s() {
+	ssh $1@$2.berkeley.edu
 }
 
-switchguest1() {
-    # run in nac-dev-1
-    sudo mv /usr/local/ist/lib/site_perl/shared/Core/ConfigGuest.pm /usr/local/ist/lib/site_perl/shared/Core/ConfigGuest.pm.backup
-    sudo mv /usr/local/ist/lib/site_perl/shared/CoreGuest.pm /usr/local/ist/lib/site_perl/shared/CoreGuest.pm.backup
-    sudo mv /usr/local/ist/lib/site_perl/shared/guestconfig.conf /usr/local/ist/lib/site_perl/shared/guestconfig.conf.backup
-    sudo cp ~/core/lib/site_perl/shared/Core/ConfigGuest.pm /usr/local/ist/lib/site_perl/shared/Core/ConfigGuest.pm
-    sudo cp ~/core/lib/site_perl/shared/CoreGuest.pm /usr/local/ist/lib/site_perl/shared/CoreGuest.pm
-    sudo cp ~/core/lib/site_perl/shared/guestconfig.conf /usr/local/ist/lib/site_perl/shared/guestconfig.conf
-}
-switchguest2() {
-    sudo mv /usr/local/ist/lib/site_perl/shared/Core/ConfigGuest.pm.backup /usr/local/ist/lib/site_perl/shared/Core/ConfigGuest.pm
-    sudo mv /usr/local/ist/lib/site_perl/shared/CoreGuest.pm.backup /usr/local/ist/lib/site_perl/shared/CoreGuest.pm
-    sudo mv /usr/local/ist/lib/site_perl/shared/guestconfig.conf.backup /usr/local/ist/lib/site_perl/shared/guestconfig.conf
-} 
+alias rails_reset="rm -rf ~/cs169-group29/db/*.sqlite3; rake db:migrate; rake db:seed"
 
 export HISTSIZE=1000
+
+edit() {
+	vi ~/dotfiles/rc/.$1
+}
+
+
