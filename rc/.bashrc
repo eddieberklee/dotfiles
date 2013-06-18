@@ -90,4 +90,10 @@ edit() {
 	vi ~/dotfiles/rc/.$1
 }
 
+music-to-desktop() {
+  echo $1 >> ~/Desktop/music-to-desktop/quicky.txt
+}
+music-to-download() {
+  echo $1 >> ~/Desktop/music-to-download/quicky.txt
+}
 
