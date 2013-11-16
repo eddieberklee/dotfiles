@@ -5,6 +5,9 @@ alias pmr="python manage.py runserver"
 alias pms="python manage.py shell_plus"
 alias pm="python manage.py"
 
+# Follows aliases to their true paths
+alias cd="cd -P"
+
 alias mutt="mutt -y"
 alias ls="ls -GF"
 alias ll="ls -l"

@@ -17,6 +17,9 @@ else
 	alias ls='ls --color'
 fi
 
+# Follows aliases to their true paths
+alias cd="cd -P"
+
 # Show only the defined mailboxes when you open mutt
 alias mutt="mutt -y"
 alias ll="ls -l"
