@@ -29,6 +29,10 @@ set expandtab
 map <Enter> o<Esc>
 map <S-Enter> O<Esc>
 
+" Save/restore folds when a file is closed and re-opened
+autocmd BufWinLeave *.* mkview
+autocmd BufWinEnter *.* silent loadview
+
 " Quick switch between buffers
 map <C-j> :bn<CR>
 map <C-k> :bp<CR>

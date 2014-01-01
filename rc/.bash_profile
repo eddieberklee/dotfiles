@@ -1,27 +1,15 @@
-# To pick up local paths.
-[ -f /etc/profile ] && source /etc/profile
+# Show only the defined mailboxes when you open mutt
 
-# Include the rescomp scripts in the path by default
-export PATH="$PATH:/usr/local/rescomp/bin:/usr/local/rescomp/sbin"
-
-# Default Rescomp .bashrc
-if [ -f /rc/etc/dotfiles/system.bashrc ]; then
-	source /rc/etc/dotfiles/system.bashrc
-fi
-
-# system-wide aliases
-# We like ls with colors, but it's different on FreeBSD vs Linux
-if [[ FreeBSD == $(uname) ]] ; then
-	alias ls='ls -GF'
-else    
-	alias ls='ls --color'
-fi
+# Django Bindings
+alias pmr="python manage.py runserver"
+alias pms="python manage.py shell_plus"
+alias pm="python manage.py"
 
 # Follows aliases to their true paths
 alias cd="cd -P"
 
-# Show only the defined mailboxes when you open mutt
 alias mutt="mutt -y"
+alias ls="ls -GF"
 alias ll="ls -l"
 alias la="ls -a"
 alias l="ls -CF"
@@ -68,19 +56,6 @@ d() {
 	diff $1 /usr/local/ist/lib/site_perl/shared/$1
 }
 
-propagate() {
-	echo "pandora"
-	scp $1 elee@pandora.net.berkeley.edu:$1
-	echo "hal"
-	scp $1 elee@hal.rescomp.berkeley.edu:$1
-	echo "nac-dev-1"
-	scp $1 elee@nac-dev-1.net.berkeley.edu:$1
-	echo "dev-dhcp-1"
-	scp $1 elee@dev-dhcp-1.net.berkeley.edu:$1
-	echo "dev-dhcp-2"
-	scp $1 elee@dev-dhcp-2.net.berkeley.edu:$1
-}
-
 s() {
 	ssh $1@$2.berkeley.edu
 }
@@ -99,4 +74,12 @@ music-to-desktop() {
 music-to-download() {
   echo $1 >> ~/Desktop/music-to-download/quicky.txt
 }
+
+source ~/.git-prompt.sh
+PS1="\[\033[01;37m\][\[\033[01;32m\]\W\[\033[01;37m\]] \$ "
+
+# Class Account Login
+alias cs170-cc="ssh cs170-cc@cory.eecs.berkeley.edu"
+alias cs186-nw="ssh cs186-nw@cory.eecs.berkeley.edu"
+alias ee122-fn="ssh ee122-fn@cory.eecs.berkeley.edu"
 
