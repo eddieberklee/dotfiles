@@ -94,7 +94,7 @@ hardstatus alwayslastline
 #hardstatus string "%{.kc}%-w%{.kc}%n*%t%{-}%+w %=%c %d/%m/%Y" #black+cyan+normal
 
 # caption always "%{Wb} %H %{Bk}| %{Ck}%-w%50>%{Cb} %n %t %{-}%+w%<%{- Wk}%{Bk} | %=%{Wb} %C "
-hardstatus string "%{.kc}%-w %{Bk}%{.kw}>%n%t%{-}<%+w%{Bk} %= %2` %3`/%4` %6`/%7` %5`/%9` %C %M%d" #black+cyan+normal+white selected
+hardstatus string "%{.kc}%-w %{Bk}%{.kw}>%n %t%{-}<%+w%{Bk} %= %2` %3`/%4` %6`/%7` %5`/%9` %C %M%d" #black+cyan+normal+white selected
 
 #hardstatus string "%{.kc}%-w%{.kw}%n*%t%{-}%+w %= | %1` | %2`C | %3`/%4` | %6`/%7` | %5` | %c %d/%m/%Y" #with dwm status bar
 #hardstatus string '%{= kB}%-Lw%{+r}%50> %n%f* %t%{= kB}%+Lw%< %{= kB}%-= %{-}'
