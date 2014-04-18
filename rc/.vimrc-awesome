@@ -1,0 +1,25 @@
+set runtimepath+=~/.vim_runtime
+
+source ~/.vim_runtime/vimrcs/basic.vim
+source ~/.vim_runtime/vimrcs/filetypes.vim
+source ~/.vim_runtime/vimrcs/plugins_config.vim
+source ~/.vim_runtime/vimrcs/extended.vim
+
+set wrap!
+set autoread
+inoremap jj <Esc>
+map <C-j> :bn<CR>
+map <C-k> :bp<CR>
+map <C-h> :tabp<CR>
+map <C-l> :tabn<CR>
+command W w
+command Q q
+map <C-n> :noh<CR>
+map <Enter> o<Esc>
+map <S-Enter> O<Esc>
+set number
+
+try
+source ~/.vim_runtime/my_configs.vim
+catch
+endtry
