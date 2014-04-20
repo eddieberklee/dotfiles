@@ -40,6 +40,9 @@ map <C-k> :bp<CR>
 map <C-h> :tabp<CR>
 map <C-l> :tabn<CR>
 
+" Quick close
+map <C-d> :q<CR>
+
 " Accidental shift (:W instead of :w)
 command W w
 command Q q
@@ -55,6 +58,7 @@ map <C-n> :noh<CR>
 set number
 
 " Pathogen
-call pathogen#infect()
-colorscheme solarized
+" call pathogen#infect()
+
+colorscheme molokai
 
