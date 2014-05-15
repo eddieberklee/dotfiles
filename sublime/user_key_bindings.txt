@@ -1,4 +1,13 @@
-{ "keys": ["ctrl+shift+t"], "command": "open_recent_file", "args": {"index" : 0} }
+{ "keys": ["ctrl+shift+t"], "command": "open_recent_file", "args": {"index" : 0} },
+
+{ "keys": ["ctrl+tab"], "command": "next_view" },
+{ "keys": ["ctrl+shift+tab"], "command": "prev_view" },
+
+{ "keys": ["super+2"], "command": "next_bookmark" },
+{ "keys": ["super+1"], "command": "prev_bookmark" },
+{ "keys": ["super+b"], "command": "toggle_bookmark" },
+{ "keys": ["super+alt+b"], "command": "clear_bookmarks" },
+{ "keys": ["super+shift+alt+b"], "command": "select_all_bookmarks" },
 
 
 
