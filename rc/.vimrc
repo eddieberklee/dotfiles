@@ -51,6 +51,8 @@ command Q q
 map <Enter> o<Esc>
 map <S-Enter> O<Esc>
 
+" Highlighting for all occurrences of search matches
+set hlsearch
 " Turn off the highlighting for current search.
 map <C-n> :noh<CR>
 
