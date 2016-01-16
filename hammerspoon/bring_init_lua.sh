@@ -1,0 +1,2 @@
+
+cp ~/.hammerspoon/init.lua .
