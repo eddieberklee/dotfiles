@@ -59,8 +59,3 @@ map <C-n> :noh<CR>
 " Number lines.
 set number
 
-" Pathogen
-" call pathogen#infect()
-
-colorscheme molokai
-
