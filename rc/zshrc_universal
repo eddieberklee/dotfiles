@@ -1,3 +1,18 @@
+export EDITOR=vim
+
+# Quick way to edit and source zshrc
+alias edit_zsh_universal="vi ~/dotfiles/rc/zshrc_universal"
+alias source_zsh_universal=". ~/dotfiles/rc/zshrc_universal"
+alias edit_zsh_facebook="vi ~/dotfiles/rc/zshrc_facebook"
+alias source_zsh_facebook=". ~/dotfiles/rc/zshrc_facebook"
+
+# Typo catcher
+alias sl="ls"
+
+# Android
+alias adb_restart="adb kill-server; adb start-server"
+
+
 
 # Autosuggestions https://github.com/zsh-users/zsh-autosuggestions
 # `brew install zsh-autosuggestions`

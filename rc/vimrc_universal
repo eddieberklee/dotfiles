@@ -25,6 +25,9 @@ set tabstop=2
 set softtabstop=2
 set expandtab
 
+" Making clipboard work within vim
+set clipboard=unnamed
+
 " Add lines above/below by just pressing Enter or Shift-Enter.
 map <Enter> o<Esc>
 map <S-Enter> O<Esc>
