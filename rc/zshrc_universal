@@ -1,10 +1,10 @@
 export EDITOR=vim
 
 # Quick way to edit and source zshrc
-alias edit_zsh_universal="vi ~/dotfiles/rc/zshrc_universal"
-alias source_zsh_universal=". ~/dotfiles/rc/zshrc_universal"
-alias edit_zsh_facebook="vi ~/dotfiles/rc/zshrc_facebook"
-alias source_zsh_facebook=". ~/dotfiles/rc/zshrc_facebook"
+alias ezsh_universal="vi ~/dotfiles/rc/zshrc_universal; /Users/edlee/dotfiles/rc/copy-zshrc.sh; . ~/.zshrc"
+alias szsh_universal=". ~/dotfiles/rc/zshrc_universal"
+alias ezsh_facebook="vi ~/dotfiles/rc/zshrc_facebook; /Users/edlee/dotfiles/rc/copy-zshrc.sh; . ~/.zshrc"
+alias szsh_facebook=". ~/dotfiles/rc/zshrc_facebook"
 
 # Typo catcher
 alias sl="ls"

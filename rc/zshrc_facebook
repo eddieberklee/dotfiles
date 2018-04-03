@@ -1,4 +1,4 @@
-
+cd ~/fbsource/fbandroid
 
 # added by setup_fb4a.sh
 export FBANDROID_DIR=/Users/edlee/fbsource/fbandroid
@@ -21,17 +21,25 @@ export PATH=${PATH}:${JAVA_HOME}/bin
 
 # MobileConfig
 mc() {
-  ./scripts/dumpapp mobileconfig qe set $1 $2:$3
-  ./scripts/restart_fb4a
+  ${FBANDROID_DIR}/scripts/dumpapp mobileconfig qe set $1 $2:$3
+  ${FBANDROID_DIR}/scripts/restart_fb4a
   echo "\n"
 }
 
 # Mercurial
-alias hs="echo 'Changed files:\n'; hg status; echo 'Mercurial Tree:\n'; hg ssl"
+alias hs="echo 'Changed Files:'; hg status; echo '\nMercurial Tree:'; hg ssl"
 alias hd="hg diff"
 alias hr="hg diff -r .^"
 alias ha="hg amend --rebase"
 
 alias rebase_all_local="hg rebase -r 'draft() - master::' -d master"
-alias rebase_all_stable="hg rebase -r 'draft() - master::' -d stable"
+alias rebase_all_stable="hg rebase -r 'draft() - master::' -d fbandroid/stable"
+
+alias arc_pull="arc feature --cleanup; arc pull; arc focus --targets fb4a //java/com/facebook/feedback/comments/...; rebase_all_stable"
+
+# Editus
+alias add_deps="${FBANDROID_DIR}/scripts/editus add_suggestions"
+
+alias rageshake="~/fbsource/fbandroid/scripts/dumpapp shake"
+
 
