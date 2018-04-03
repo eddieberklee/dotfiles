@@ -32,10 +32,12 @@ alias hd="hg diff"
 alias hr="hg diff -r .^"
 alias ha="hg amend --rebase"
 
-alias rebase_all_local="hg rebase -r 'draft() - master::' -d master"
+alias rebase_all_master="hg rebase -r 'draft() - master::' -d master"
 alias rebase_all_stable="hg rebase -r 'draft() - master::' -d fbandroid/stable"
 
 alias arc_pull="arc feature --cleanup; arc pull; arc focus --targets fb4a //java/com/facebook/feedback/comments/...; rebase_all_stable"
+
+alias focus="arc focus beta --targets fb4a --pinned //java/com/facebook/ipc/feedback/... //java/com/facebook/feedback/..."
 
 # Editus
 alias add_deps="${FBANDROID_DIR}/scripts/editus add_suggestions"
