@@ -26,8 +26,13 @@ mc() {
   echo "\n"
 }
 
+# Logging
+alias logcat_eddie="adb logcat com.facebook.wakizashi | grep eddie"
+
 # Mercurial
 alias hs="echo 'Changed Files:'; hg status; echo '\nMercurial Tree:'; hg ssl"
+alias hgs="echo 'status:'; hg status; echo '\ntree:'; hg sl"
+alias sh="hs"
 alias hd="hg diff"
 alias hr="hg diff -r .^"
 alias ha="hg amend --rebase"
@@ -44,4 +49,7 @@ alias add_deps="${FBANDROID_DIR}/scripts/editus add_suggestions"
 
 alias rageshake="~/fbsource/fbandroid/scripts/dumpapp shake"
 
+# List files by pressing return
+# accept-line() {: "${BUFFER:="hs"}"; zle ".$WIDGET"}
+# zle -N accept-line
 
