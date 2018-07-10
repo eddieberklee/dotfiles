@@ -1,6 +1,7 @@
 export EDITOR=vim
 
 # Quick way to edit and source zshrc
+alias ezsh_rc="cd ~/dotfiles; git pull; vi ~/dotfiles/rc/zshrc; /Users/edlee/dotfiles/rc/copy-zshrc.sh; . ~/.zshrc; cd ~/dotfiles; ./push.sh"
 alias ezsh_universal="cd ~/dotfiles; git pull; vi ~/dotfiles/rc/zshrc_universal; /Users/edlee/dotfiles/rc/copy-zshrc.sh; . ~/.zshrc; cd ~/dotfiles; ./push.sh"
 alias szsh_universal=". ~/dotfiles/rc/zshrc_universal"
 alias ezsh_facebook="cd ~/dotfiles; git pull; vi ~/dotfiles/rc/zshrc_facebook; /Users/edlee/dotfiles/rc/copy-zshrc.sh; . ~/.zshrc; cd ~/dotfiles; ./push.sh"
