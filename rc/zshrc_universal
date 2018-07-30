@@ -14,6 +14,7 @@ alias sl="ls"
 alias adb_restart="adb kill-server; adb start-server"
 
 # Git
+alias gs="git status"
 alias gc="git add .; git commit -am"
 
 # Autosuggestions https://github.com/zsh-users/zsh-autosuggestions
