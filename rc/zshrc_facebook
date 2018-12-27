@@ -38,6 +38,7 @@ alias hd="hg diff"
 alias hr="hg diff -r .^"
 alias ha="hg amend --rebase"
 alias rebase_stable="hg rebase -d fbandroid/stable"
+alias full_pull="arc pull; arc focus --targets fb4a; buck kill; buck build --deep fb4a"
 
 alias rebase_all_master="hg rebase -r 'draft() - master::' -d master"
 alias rebase_all_stable="hg rebase -r 'draft() - master::' -d fbandroid/stable"
