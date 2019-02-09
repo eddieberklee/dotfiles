@@ -20,8 +20,9 @@ alias s="/Users/edlee/fbsource/fbandroid/scripts/fb-adb shell screencap -p > ~/D
 
 # Java 8
 # variable should point to the output of `/usr/libexec/java_home -v 1.8`
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home
-export PATH=${PATH}:${JAVA_HOME}/bin
+# IMPORTANT: Copy this over into your zshrc to override
+# export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home
+# export PATH=${PATH}:${JAVA_HOME}/bin
 
 # MobileConfig
 mc() {
@@ -30,22 +31,35 @@ mc() {
   echo "\n"
 }
 
+# Logging
+alias logcat_eddie="adb logcat com.facebook.wakizashi | grep eddie"
+
 # Mercurial
 alias hs="echo 'Changed Files:'; hg status; echo '\nMercurial Tree:'; hg ssl"
+alias hgs="echo 'status:'; hg status; echo '\ntree:'; hg sl"
+alias fs="hg fsl"
+alias sh="hs"
 alias hd="hg diff"
 alias hr="hg diff -r .^"
 alias ha="hg amend --rebase"
+alias rebase_stable="hg rebase -d fbandroid/stable"
+alias full_pull="arc pull; arc focus --targets fb4a; buck kill; buck build --deep fb4a"
 
-alias rebase_all_local="hg rebase -r 'draft() - master::' -d master"
+alias rebase_all_master="hg rebase -r 'draft() - master::' -d master"
 alias rebase_all_stable="hg rebase -r 'draft() - master::' -d fbandroid/stable"
 
 alias arc_pull="arc feature --cleanup; arc pull; arc focus --targets fb4a //java/com/facebook/feedback/comments/...; rebase_all_stable"
+
+alias focus="arc focus beta --targets fb4a --pinned //java/com/facebook/ipc/feedback/... //java/com/facebook/feedback/..."
 
 # Editus
 alias add_deps="${FBANDROID_DIR}/scripts/editus add_suggestions"
 
 alias rageshake="~/fbsource/fbandroid/scripts/dumpapp shake"
 
+# List files by pressing return
+# accept-line() {: "${BUFFER:="hs"}"; zle ".$WIDGET"}
+# zle -N accept-line
 
 
 
