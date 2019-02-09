@@ -10,6 +10,10 @@ export ANDROID_NDK_REPOSITORY=/opt/android_ndk
 export ANDROID_HOME=${ANDROID_SDK}
 export PATH=${PATH}:${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools
 
+HISTSIZE=130000
+SAVEHIST=130000
+set -g history-limit 30000
+
 # Android
 screenshot_time=`date '+%d%m%Y_%H%M%S'`
 alias s="/Users/edlee/fbsource/fbandroid/scripts/fb-adb shell screencap -p > ~/Desktop/screenshot${screenshot_time}.png"
@@ -41,5 +45,7 @@ alias arc_pull="arc feature --cleanup; arc pull; arc focus --targets fb4a //java
 alias add_deps="${FBANDROID_DIR}/scripts/editus add_suggestions"
 
 alias rageshake="~/fbsource/fbandroid/scripts/dumpapp shake"
+
+
 
 
