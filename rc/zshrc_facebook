@@ -52,6 +52,8 @@ alias arc_pull="arc feature --cleanup; arc pull; arc focus --targets fb4a //java
 
 alias focus="arc focus beta --targets fb4a --pinned //java/com/facebook/ipc/feedback/... //java/com/facebook/feedback/..."
 
+alias say="build is done"
+
 # Editus
 alias add_deps="${FBANDROID_DIR}/scripts/editus add_suggestions"
 
