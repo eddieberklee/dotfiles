@@ -33,6 +33,9 @@ mc() {
   ${FBANDROID_DIR}/scripts/restart_fb4a
   echo "\n"
 }
+hc() {
+  hg commit -m "$1"
+}
 
 # Logging
 alias logcat_eddie="adb logcat com.facebook.wakizashi | grep eddie"
