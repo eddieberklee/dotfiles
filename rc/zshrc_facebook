@@ -16,7 +16,7 @@ set -g history-limit 30000
 
 # Android
 screenshot_time=`date '+%d%m%Y_%H%M%S'`
-alias s="/Users/edlee/fbsource/fbandroid/scripts/fb-adb shell screencap -p > ~/Desktop/screenshot${screenshot_time}.png"
+alias screenshot_emulator="/Users/edlee/fbsource/fbandroid/scripts/fb-adb shell screencap -p > ~/Desktop/screenshot${screenshot_time}.png"
 
 # Java 8
 # variable should point to the output of `/usr/libexec/java_home -v 1.8`
@@ -37,7 +37,7 @@ hc() {
   hg commit -m "$1"
 }
 
-alias s="say 'suh'"
+alias s="say 'suuhh'"
 
 # Logging
 alias logcat_eddie="adb logcat com.facebook.wakizashi | grep eddie"
