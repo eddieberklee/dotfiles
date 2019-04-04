@@ -37,6 +37,8 @@ hc() {
   hg commit -m "$1"
 }
 
+alias s="say 'suh'"
+
 # Logging
 alias logcat_eddie="adb logcat com.facebook.wakizashi | grep eddie"
 
