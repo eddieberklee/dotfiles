@@ -36,6 +36,10 @@ mc() {
 hc() {
   hg commit -m "$1"
 }
+hur() {
+  hg up $1;
+  hg rebase -d $2;
+}
 
 alias s="say 'suuhh'"
 
