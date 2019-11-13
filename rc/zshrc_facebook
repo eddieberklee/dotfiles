@@ -33,6 +33,9 @@ mc() {
   ${FBANDROID_DIR}/scripts/restart_fb4a
   echo "\n"
 }
+mco() {
+  ${FBANDROID_DIR}/scripts/dumpapp mobileconfig override $1 $2
+}
 hc() {
   hg commit -m "$1"
 }
