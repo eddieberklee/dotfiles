@@ -43,6 +43,9 @@ hur() {
   hg up $1;
   hg rebase -d $2;
 }
+hu() {
+  hg up $1;
+}
 
 alias s="say 'suuhh'"
 
