@@ -46,6 +46,8 @@ hur() {
 hu() {
   hg up $1;
 }
+alias bir="buck install -x -r fb4a"
+alias bis="buck install -x -r fb4a; say 'it is done'"
 
 alias s="say 'suuhh'"
 
