@@ -46,6 +46,9 @@ hur() {
 hu() {
   hg up $1;
 }
+hre() {
+  hg rebase -s $1 -d $2;
+}
 alias br="buck install -x -r fb4a"
 alias bs="buck install -x -r fb4a; say 'it is done'"
 
