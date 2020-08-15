@@ -69,6 +69,11 @@ alias ha="hg amend --rebase"
 alias hae="hg amend -e"
 alias hn="hg next"
 alias hp="hg prev"
+alias hclean="hg up --clean ."
+
+
+alias restable="hg up fbandroid/stable; arc pull; hg up fbandroid/stable; arc focus --targets fb4a; buck killall; buck build --deep fb4a"
+
 alias rebase_stable="hg rebase -d fbandroid/stable"
 alias full_pull="arc pull; arc focus --targets fb4a; buck kill; buck build --deep fb4a"
 
