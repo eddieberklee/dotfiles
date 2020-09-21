@@ -98,4 +98,31 @@ alias hl="hg-sl-up"
 # zle -N accept-line
 
 
+# To show graph of deps between threads app and direct mutation:
+# buckq //java/com/instagram/threadsapp/app:app //java/com/instagram/direct/mutation:mutation
+
+function buckq {
+FROM=$1
+TO=$2
+shift 2
+
+file=$(
+stringB='/' &&
+stringC='_' &&
+stringD=':' &&
+stringE='//java/com/instagram/' &&
+stringF=${TO//$stringE/$stringC} &&
+stringF=${stringF//$stringD/$stringC} &&
+stringG=${stringF//$stringB/$stringC} &&
+stringH=${stringG//$stringD/$stringC} &&
+now=$(date +"%s") &&
+buck query "rdeps('$FROM', '$TO')" --dot > ~/Documents/dep_graphs/dot$stringH.dot  && dot -Tpng ~/Documents/dep_graphs/dot$stringH.dot -o ~/Documents/dep_graphs/$now$stringH.png &&
+open ~/Documents/dep_graphs/$now$stringH.png $@
+)
+}
+
+# Show all threads app dependencies
+buck query "deps(//java/com/instagram/threadsapp/app:app)"
+
+
 
