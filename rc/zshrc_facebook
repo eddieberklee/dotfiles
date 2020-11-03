@@ -121,12 +121,6 @@ open ~/Documents/dep_graphs/$now$stringH.png $@
 )
 }
 
-# Show all threads app dependencies
-buck query "deps(//java/com/instagram/threadsapp/app:app)"
-
-
-
-
 # ADB Shortcuts for Launching Screens
 
 alias launch_challenges_group="adb shell am start -a android.intent.action.VIEW -d 'https://www.facebook.com/groups/734682423952208/'"
