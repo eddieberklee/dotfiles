@@ -59,7 +59,8 @@ alias logcat_eddie="adb logcat com.facebook.wakizashi | grep eddie"
 
 # Mercurial
 alias hs="echo 'Changed Files:'; hg status; echo '\nMercurial Tree:'; hg ssl"
-alias h="hg ssl; hg status"
+alias h="hg sl; hg status"
+alias hss="hg ssl; hg status"
 alias hgs="echo 'status:'; hg status; echo '\ntree:'; hg sl"
 alias har="hg amend --rebase"
 alias fs="hg fsl"
