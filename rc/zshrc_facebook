@@ -18,12 +18,6 @@ set -g history-limit 30000
 screenshot_time=`date '+%d%m%Y_%H%M%S'`
 alias screenshot_emulator="/Users/edlee/fbsource/fbandroid/scripts/fb-adb shell screencap -p > ~/Desktop/screenshot${screenshot_time}.png"
 
-# Java 8
-# variable should point to the output of `/usr/libexec/java_home -v 1.8`
-# IMPORTANT: Copy this over into your zshrc to override
-# export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home
-# export PATH=${PATH}:${JAVA_HOME}/bin
-
 export PATH=${PATH}:${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools
 
 # MobileConfig
