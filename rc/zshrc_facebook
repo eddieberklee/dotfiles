@@ -65,6 +65,7 @@ alias hn="hg next"
 alias hp="hg prev"
 alias hclean="hg up --clean ."
 alias hhc="hg histedit --continue"
+alias hhe="hg histedit"
 
 
 alias restable="hg up fbandroid/stable; arc pull; hg up fbandroid/stable; arc focus --targets fb4a; buck killall; buck build --deep fb4a"
