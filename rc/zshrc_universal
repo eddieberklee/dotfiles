@@ -1,9 +1,10 @@
 export EDITOR=vim
 
 # Quick way to edit and source zshrc
-alias ezsh_universal="vi ~/dotfiles/rc/zshrc_universal; /Users/edlee/dotfiles/rc/copy-zshrc.sh; . ~/.zshrc; ~/dotfiles/push.sh"
+alias ezsh_rc="cd ~/dotfiles; git pull; vi ~/dotfiles/rc/zshrc; /Users/edlee/dotfiles/rc/copy-zshrc.sh; . ~/.zshrc; cd ~/dotfiles; ./push.sh"
+alias ezsh_universal="cd ~/dotfiles; git pull; vi ~/dotfiles/rc/zshrc_universal; /Users/edlee/dotfiles/rc/copy-zshrc.sh; . ~/.zshrc; cd ~/dotfiles; ./push.sh"
 alias szsh_universal=". ~/dotfiles/rc/zshrc_universal"
-alias ezsh_facebook="vi ~/dotfiles/rc/zshrc_facebook; /Users/edlee/dotfiles/rc/copy-zshrc.sh; . ~/.zshrc; ~/dotfiles/push.sh"
+alias ezsh_facebook="cd ~/dotfiles; git pull; vi ~/dotfiles/rc/zshrc_facebook; /Users/edlee/dotfiles/rc/copy-zshrc.sh; . ~/.zshrc; cd ~/dotfiles; ./push.sh"
 alias szsh_facebook=". ~/dotfiles/rc/zshrc_facebook"
 
 # Typo catcher
@@ -12,7 +13,9 @@ alias sl="ls"
 # Android
 alias adb_restart="adb kill-server; adb start-server"
 
-
+# Git
+alias gs="git status"
+alias gc="git add .; git commit -am"
 
 # Autosuggestions https://github.com/zsh-users/zsh-autosuggestions
 # `brew install zsh-autosuggestions`

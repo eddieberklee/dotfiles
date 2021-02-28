@@ -10,14 +10,15 @@ export ANDROID_NDK_REPOSITORY=/opt/android_ndk
 export ANDROID_HOME=${ANDROID_SDK}
 export PATH=${PATH}:${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools
 
+HISTSIZE=130000
+SAVEHIST=130000
+set -g history-limit 30000
+
 # Android
 screenshot_time=`date '+%d%m%Y_%H%M%S'`
-alias s="/Users/edlee/fbsource/fbandroid/scripts/fb-adb shell screencap -p > ~/Desktop/screenshot${screenshot_time}.png"
+alias screenshot_emulator="/Users/edlee/fbsource/fbandroid/scripts/fb-adb shell screencap -p > ~/Desktop/screenshot${screenshot_time}.png"
 
-# Java 8
-# variable should point to the output of `/usr/libexec/java_home -v 1.8`
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home
-export PATH=${PATH}:${JAVA_HOME}/bin
+export PATH=${PATH}:${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools
 
 # MobileConfig
 mc() {
@@ -25,12 +26,52 @@ mc() {
   ${FBANDROID_DIR}/scripts/restart_fb4a
   echo "\n"
 }
+mco() {
+  ${FBANDROID_DIR}/scripts/dumpapp mobileconfig override $1 $2
+}
+hc() {
+  hg commit -m "$1"
+}
+hur() {
+  hg up $1;
+  hg rebase -d $2;
+}
+hu() {
+  hg up $1;
+}
+hre() {
+  hg rebase -s $1 -d $2;
+}
+alias br="buck install -x -r fb4a"
+alias bs="buck install -x -r fb4a; say 'it is done'"
+
+alias s="say 'suuhh'"
+
+# Logging
+alias logcat_eddie="adb logcat com.facebook.wakizashi | grep eddie"
 
 # Mercurial
 alias hs="echo 'Changed Files:'; hg status; echo '\nMercurial Tree:'; hg ssl"
+alias h="hg ssl; hg status"
+alias hss="hg ssl; hg status"
+alias hgs="echo 'status:'; hg status; echo '\ntree:'; hg sl"
+alias har="hg amend --rebase"
+alias fs="hg fsl"
 alias hd="hg diff"
 alias hr="hg diff -r .^"
 alias ha="hg amend --rebase"
+alias hae="hg amend -e"
+alias hn="hg next"
+alias hp="hg prev"
+alias hclean="hg up --clean ."
+alias hhc="hg histedit --continue"
+alias hhe="hg histedit"
+
+
+alias restable="hg up fbandroid/stable; arc pull; hg up fbandroid/stable; arc focus --targets fb4a; buck killall; buck build --deep fb4a"
+
+alias rebase_stable="hg rebase -d fbandroid/stable"
+alias full_pull="arc pull; arc focus --targets fb4a; buck kill; buck build --deep fb4a"
 
 alias rebase_all_master="hg rebase -r 'draft() - master::' -d master"
 alias rebase_all_stable="hg rebase -r 'draft() - master::' -d fbandroid/stable"
@@ -39,9 +80,45 @@ alias arc_pull="arc feature --cleanup; arc pull; arc focus --targets fb4a //java
 
 alias focus="arc focus beta --targets fb4a --pinned //java/com/facebook/ipc/feedback/... //java/com/facebook/feedback/..."
 
+alias bsay="say \"build is done\""
+
 # Editus
 alias add_deps="${FBANDROID_DIR}/scripts/editus add_suggestions"
 
 alias rageshake="~/fbsource/fbandroid/scripts/dumpapp shake"
+
+alias hl="hg-sl-up"
+
+# List files by pressing return
+# accept-line() {: "${BUFFER:="hs"}"; zle ".$WIDGET"}
+# zle -N accept-line
+
+
+# To show graph of deps between threads app and direct mutation:
+# buckq //java/com/instagram/threadsapp/app:app //java/com/instagram/direct/mutation:mutation
+
+function buckq {
+FROM=$1
+TO=$2
+shift 2
+
+file=$(
+stringB='/' &&
+stringC='_' &&
+stringD=':' &&
+stringE='//java/com/instagram/' &&
+stringF=${TO//$stringE/$stringC} &&
+stringF=${stringF//$stringD/$stringC} &&
+stringG=${stringF//$stringB/$stringC} &&
+stringH=${stringG//$stringD/$stringC} &&
+now=$(date +"%s") &&
+buck query "rdeps('$FROM', '$TO')" --dot > ~/Documents/dep_graphs/dot$stringH.dot  && dot -Tpng ~/Documents/dep_graphs/dot$stringH.dot -o ~/Documents/dep_graphs/$now$stringH.png &&
+open ~/Documents/dep_graphs/$now$stringH.png $@
+)
+}
+
+# ADB Shortcuts for Launching Screens
+
+alias launch_challenges_group="adb shell am start -a android.intent.action.VIEW -d 'https://www.facebook.com/groups/734682423952208/'"
 
 
