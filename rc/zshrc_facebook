@@ -121,4 +121,5 @@ open ~/Documents/dep_graphs/$now$stringH.png $@
 
 alias launch_challenges_group="adb shell am start -a android.intent.action.VIEW -d 'https://www.facebook.com/groups/734682423952208/'"
 
-
+# Instagram/Threads
+alias bbit="buck build instagram-android threadsapp"
