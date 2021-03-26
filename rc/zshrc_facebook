@@ -123,3 +123,5 @@ alias launch_challenges_group="adb shell am start -a android.intent.action.VIEW 
 
 # Instagram/Threads
 alias bbit="buck build instagram-android threadsapp"
+alias bii="buck install -x -r instagram-android"
+alias bit="buck install -x -r threadsapp"
