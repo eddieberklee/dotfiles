@@ -88,6 +88,7 @@ alias add_deps="${FBANDROID_DIR}/scripts/editus add_suggestions"
 alias rageshake="~/fbsource/fbandroid/scripts/dumpapp shake"
 
 alias hl="hg-sl-up"
+alias hec="hg histedit --continue"
 
 # List files by pressing return
 # accept-line() {: "${BUFFER:="hs"}"; zle ".$WIDGET"}
