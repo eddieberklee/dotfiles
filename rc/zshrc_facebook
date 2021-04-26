@@ -45,7 +45,7 @@ hre() {
 alias br="buck install -x -r fb4a"
 alias bs="buck install -x -r fb4a; say 'it is done'"
 
-alias s="say 'suuhh'"
+alias s="say 'sup'"
 
 # Logging
 alias logcat_eddie="adb logcat com.facebook.wakizashi | grep eddie"
