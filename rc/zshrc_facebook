@@ -89,6 +89,7 @@ alias rageshake="~/fbsource/fbandroid/scripts/dumpapp shake"
 
 alias hl="hg-sl-up"
 alias hec="hg histedit --continue"
+alias hea="hg histedit --abort"
 
 # List files by pressing return
 # accept-line() {: "${BUFFER:="hs"}"; zle ".$WIDGET"}
