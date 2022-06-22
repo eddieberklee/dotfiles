@@ -1,7 +1,7 @@
-cd ~/fbsource/fbandroid
+cd ~/fbsource-eden/fbandroid
 
 # added by setup_fb4a.sh
-export FBANDROID_DIR=/Users/edlee/fbsource-eden/fbandroid
+export FBANDROID_DIR=/Users/edlee/fbsource/fbandroid
 alias quicklog_update=/Users/edlee/fbsource/fbandroid/scripts/quicklog/quicklog_update.sh
 alias qlu=quicklog_update
 
