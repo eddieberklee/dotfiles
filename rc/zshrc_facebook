@@ -1,3 +1,4 @@
+eden start
 cd ~/fbsource-eden/fbandroid
 
 # added by setup_fb4a.sh
