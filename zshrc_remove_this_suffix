@@ -94,6 +94,9 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 
+# Claude
+alias god-claude="claude --dangerously-skip-permissions"
+
 # Source the modular components from dotfiles
 source .zshrc_universal
 source .zshrc_facebook
