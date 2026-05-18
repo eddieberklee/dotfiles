@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash([ -d /Users/edlee/.oh-my-zsh ])",
+      "Bash(brew install:*)",
+      "Bash(git config:*)",
+      "Bash(open:*)"
+    ]
+  }
+}
