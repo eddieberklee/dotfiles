@@ -1,0 +1,127 @@
+#!/usr/bin/env python3
+"""Open the URL under a tmux mouse click.
+
+Usage from tmux:
+  TMUX_MOUSE_HYPERLINK=... TMUX_MOUSE_LINE=... TMUX_MOUSE_X=... tmux-open-url-at-mouse
+
+Legacy positional usage:
+  tmux-open-url-at-mouse <mouse_hyperlink> <mouse_line> <mouse_x>
+
+Use --print for tests; it prints the resolved URL instead of opening it.
+"""
+
+from __future__ import annotations
+
+import os
+import re
+import shutil
+import subprocess
+import sys
+from typing import Iterable
+
+URL_RE = re.compile(r"(?i)\b(?:https?://|ftp://|file://|mailto:)[^\s<>\"'`]+")
+
+
+def trim_url(raw_url: str) -> str:
+    """Remove punctuation commonly adjacent to URLs in prose."""
+    url = raw_url
+    while url:
+        last = url[-1]
+        if last in ".,;:!?\"'":
+            url = url[:-1]
+            continue
+        if last == ")" and url.count(")") > url.count("("):
+            url = url[:-1]
+            continue
+        if last == "]" and url.count("]") > url.count("["):
+            url = url[:-1]
+            continue
+        if last == "}" and url.count("}") > url.count("{"):
+            url = url[:-1]
+            continue
+        break
+    return url
+
+
+def clicked_columns(mouse_x: str) -> Iterable[int]:
+    """Return likely column indexes for tmux mouse_x.
+
+    tmux formats are zero-based, but checking adjacent columns makes the
+    behavior forgiving across terminal/tmux edge cases and border clicks.
+    """
+    try:
+        x = int(mouse_x)
+    except ValueError:
+        return []
+    return (x, x - 1, x + 1)
+
+
+def resolve_url(mouse_hyperlink: str, mouse_line: str, mouse_x: str) -> str:
+    if mouse_hyperlink:
+        return mouse_hyperlink
+
+    columns = tuple(clicked_columns(mouse_x))
+    if not columns:
+        return ""
+
+    for match in URL_RE.finditer(mouse_line):
+        url = trim_url(match.group(0))
+        start = match.start()
+        end = start + len(url)
+        if any(start <= column < end for column in columns):
+            return url
+    return ""
+
+
+def open_url(url: str) -> int:
+    if not url:
+        return 0
+
+    if sys.platform == "darwin":
+        command = ["open", url]
+    elif shutil.which("xdg-open"):
+        command = ["xdg-open", url]
+    else:
+        print(f"No opener found for URL: {url}", file=sys.stderr)
+        return 1
+
+    subprocess.Popen(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    return 0
+
+
+def read_mouse_values(args: list[str]) -> tuple[str, str, str] | None:
+    if len(args) == 3:
+        return args[0], args[1], args[2]
+    if len(args) == 0:
+        return (
+            os.environ.get("TMUX_MOUSE_HYPERLINK", ""),
+            os.environ.get("TMUX_MOUSE_LINE", ""),
+            os.environ.get("TMUX_MOUSE_X", ""),
+        )
+    return None
+
+
+def main(argv: list[str]) -> int:
+    print_only = False
+    args = argv[1:]
+    if args and args[0] == "--print":
+        print_only = True
+        args = args[1:]
+
+    mouse_values = read_mouse_values(args)
+    if mouse_values is None:
+        print(
+            "Usage: tmux-open-url-at-mouse [--print] [<mouse_hyperlink> <mouse_line> <mouse_x>]",
+            file=sys.stderr,
+        )
+        return 2
+
+    url = resolve_url(*mouse_values)
+    if print_only:
+        print(url)
+        return 0
+    return open_url(url)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv))
