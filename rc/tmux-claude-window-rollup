@@ -1,0 +1,38 @@
+#!/bin/sh
+# Roll a pane's Claude Code state up to its window so the tmux status bar can
+# show an indicator when ANY pane inside a window is waiting.
+#
+# Claude Code hooks set a pane-scoped @claude_state (🔔 = needs input,
+# ✅ = done) and clear it when work resumes. tmux's window-status-format can
+# only see the window's *active* pane, so a background pane's state is invisible
+# there. This script scans every pane in the window and writes the aggregate to
+# a window-scoped @claude_win_state (🔔 outranks ✅), or unsets it when no pane
+# is waiting. Call it from every hook that touches @claude_state.
+#
+# Usage: tmux-claude-window-rollup [pane_id]   (defaults to $TMUX_PANE)
+
+pane="${1:-$TMUX_PANE}"
+[ -n "$pane" ] || exit 0
+command -v tmux >/dev/null 2>&1 || exit 0
+
+win=$(tmux display-message -p -t "$pane" '#{window_id}' 2>/dev/null)
+[ -n "$win" ] || exit 0
+
+# Newline-separated list of each pane's @claude_state (empty line if unset).
+states=$(tmux list-panes -t "$win" -F '#{@claude_state}' 2>/dev/null)
+
+rollup=
+case "$states" in
+  *🔔*) rollup='🔔' ;;
+  *✅*) rollup='✅' ;;
+esac
+
+if [ -n "$rollup" ]; then
+  tmux set -w -t "$win" @claude_win_state "$rollup" 2>/dev/null
+else
+  tmux set -w -t "$win" -u @claude_win_state 2>/dev/null
+fi
+
+# Repaint the status line immediately instead of waiting for status-interval.
+tmux refresh-client -S 2>/dev/null
+exit 0
