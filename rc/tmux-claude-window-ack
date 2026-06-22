@@ -1,0 +1,20 @@
+#!/bin/sh
+# Acknowledge a whole window's Claude Code state when you switch to it: clear
+# every pane's @claude_state and the window's rolled-up @claude_win_state, so
+# the status-bar indicator clears regardless of WHICH pane was waiting (you
+# don't have to focus that specific pane). Bound to the tmux
+# session-window-changed hook.
+#
+# Usage: tmux-claude-window-ack [window_id]
+
+win="${1:-}"
+[ -n "$win" ] || exit 0
+command -v tmux >/dev/null 2>&1 || exit 0
+
+for p in $(tmux list-panes -t "$win" -F '#{pane_id}' 2>/dev/null); do
+  tmux set -p -t "$p" -u @claude_state 2>/dev/null
+done
+
+tmux set -w -t "$win" -u @claude_win_state 2>/dev/null
+tmux refresh-client -S 2>/dev/null
+exit 0
