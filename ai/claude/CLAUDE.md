@@ -34,3 +34,7 @@ Direct CDP control of the real Chrome via the `browser-harness` CLI (installed w
 ## Prioritize solution quality over build effort
 
 When proposing how to build something, optimize for the best technical outcome. Do not discard or downrank an approach because it's expensive, slow, or effortful to implement — treat engineering cost and timeline as non-constraints unless I explicitly say otherwise. You may note effort as a tradeoff, but let the quality of the result drive the recommendation, not the difficulty of building it.
+
+## Use lists more in answers
+
+Prefer structuring answers with lists (bulleted or numbered) more often than prose. When a response covers multiple items, steps, options, findings, tradeoffs, or files, break them into a list rather than packing them into dense paragraphs. Reserve flowing prose for genuinely single-thread explanations. Default toward a short lead sentence followed by a list when there's more than one distinct point.
