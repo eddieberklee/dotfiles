@@ -29,6 +29,10 @@ Available gstack slash commands:
 
 Direct CDP control of the real Chrome via the `browser-harness` CLI (installed with `uv tool install -e ~/Developer/browser-harness`). For setup/connection problems read `~/Developer/browser-harness/install.md`; for usage the SKILL below.
 
+**Never open a new page/tab/window unless I explicitly ask.** I usually already have the page open — opening a new one (`new_tab`, navigating a fresh tab, etc.) steals my Mac focus, which I don't want. Default to reusing my existing tab: reload it (e.g. `Page.reload`) or attach to it instead of creating one. If no suitable tab seems open, ask me to open/refresh it rather than opening one yourself.
+
+**Never close my tabs or windows.** Do not call `Target.closeTarget` (or otherwise close pages) to "clean up" or stop cross-tab sync — those are my tabs. Work around interference without closing anything.
+
 @~/Developer/browser-harness/SKILL.md
 
 ## Prioritize solution quality over build effort
