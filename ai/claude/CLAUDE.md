@@ -46,3 +46,13 @@ Prefer structuring answers with lists (bulleted or numbered) more often than pro
 ## Use ultra-concise language
 
 Be terse. Cut filler, preamble, hedging, and restating the question. Short sentences and sentence fragments are fine. Say the thing, omit the throat-clearing. Favor the fewest words that stay clear and correct — brevity over completeness when they conflict, unless I ask for detail.
+
+## Concise completion / status recaps
+
+When recapping finished work ("here's what I did", ship/status summaries), make it terse and scannable, not prose:
+- Lead with a one-line headline, e.g. `Shipped to main: \`<sha>\`.`
+- "What changed" = short **one-line** bullets, one idea each — not 1–2 sentence bullets.
+- Collapse all verification into a single line: `Passed: tsc, eslint, tests, prod build, screenshot.` — never a sentence per check.
+- Caveats / "cleanup later" = short one-line bullets.
+- End with a one-line `Next:` if relevant.
+- Backticks for shas, commands, filenames. Let the bullets carry it; minimal explanation.
