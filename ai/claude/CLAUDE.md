@@ -1,5 +1,9 @@
 # User-level Claude instructions
 
+## Always build Apple apps locally
+
+Always try to build mac / iOS / watchOS / any Apple apps **locally** rather than relying on CI. Remote CI (e.g. GitHub Actions `macos-latest` runners) is not a dependable signal — it can be down or blocked (e.g. a billing/spending-limit failure makes every run fail in a few seconds before any build step). So when a change needs a native rebuild, do the build on this machine and verify it there. For Tauri/mac that's `npm run tauri:build:mac` (from `apps/mac`); for xcodegen apps it's `xcodegen generate && xcodebuild ...` (see below). Treat a green local build as the source of truth; only fall back to CI when a local build is impossible (e.g. signing/notarization secrets that only live in CI).
+
 ## iOS / xcodegen repos
 
 If the current working directory contains a `project.yml` (xcodegen) file, `project.pbxproj` is **not in git** — it is regenerated locally from `project.yml`. Adding or removing Swift files on disk without regenerating leaves them out of the Xcode target, so they won't compile into the build.
