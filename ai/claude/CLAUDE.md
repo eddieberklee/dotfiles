@@ -37,6 +37,14 @@ Direct CDP control of the real Chrome via the `browser-harness` CLI (installed w
 
 **Never close my tabs or windows.** Do not call `Target.closeTarget` (or otherwise close pages) to "clean up" or stop cross-tab sync — those are my tabs. Work around interference without closing anything.
 
+**Parallel agents → isolate to your own tab.** Multiple agents often run at once (each in its own tmux pane / `claude` process). browser-harness keys its daemon by `BU_NAME`, which defaults to `default` — so without isolation every agent shares ONE daemon attached to ONE tab, and they clobber each other's tab *and* whatever record (Etsy draft, doc, etc.) they're editing. My `~/.zshrc` now derives a stable, unique `BU_NAME` per agent from `CLAUDE_CODE_SESSION_ID` (falls back to `TMUX_PANE`, then `$PPID`). Rules when parallel work is possible:
+- Each agent gets its OWN daemon/tab. Don't assume a shared tab is yours — check `current_tab()` / the 🐴-title marker before acting.
+- Your first browser action is `new_tab(url)` (your own tab), never `goto_url` onto a tab you didn't open.
+- A new `BU_NAME` daemon's first CDP attach triggers Chrome's "Allow remote debugging?" popup (Chrome 144+) — I have to click Allow once; surface that ask, don't silently fail.
+- If you ever see fields changing that you didn't change (title flipping, materials/options you didn't enter), suspect a co-editor on the SAME record — stop, don't keep clobbering, and tell me.
+
+**Keep the working tab visible and verifiable — never leave work on an invisible background tab.** When you open your own tab for isolated work, set `BH_ACTIVATE=1` (foregrounding on `switch_tab`/`new_tab`) and, when you finish, report the exact URL of what you built (e.g. the listing/doc edit URL) and bring the tab to front so I can open and verify it myself. I should always be able to navigate to the tab/record you worked on at the end — not take your word for it.
+
 @~/Developer/browser-harness/SKILL.md
 
 ## Prioritize solution quality over build effort
