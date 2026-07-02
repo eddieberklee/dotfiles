@@ -1,5 +1,27 @@
 # User-level Claude instructions
 
+## Codex delegation workflow (Claude plans, Codex executes)
+
+Claude (the session model) is the orchestrator: it plans, decomposes work, integrates results, and does the final review. Delegate execution-heavy work to the Codex CLI headlessly via Bash. Do NOT use the interactive `codex` TUI — always headless `codex exec`.
+
+**Invocation (headless, ChatGPT subscription, no API key needed):**
+```bash
+codex exec --json -s danger-full-access -a never -c model_reasoning_effort="xhigh" "<task prompt>"
+```
+Run it from the directory Codex should work in (`cd <worktree> && codex exec ...`).
+
+**When to delegate to Codex:**
+- Implementation of a well-specified task or milestone from a plan Claude wrote
+- Code review / adversarial critique of Claude's plan BEFORE executing, and of the diff BEFORE merging (cross-review gate: `codex exec "Adversarially review this plan/diff: ..."`)
+- Verification of UI/UX work and computer-use-style checks
+- Second-opinion debugging when Claude is stuck (or use the `codex:rescue` skill)
+
+**When NOT to delegate:** planning, task decomposition, small edits Claude can do faster itself, and anything requiring conversation context Codex doesn't have — write a self-contained prompt (files, goal, constraints, done-criteria) or point it at a plan/spec `.md` file.
+
+**Worktrees are mandatory for parallel Codex runs.** Each concurrent `codex exec` gets its own git worktree under `.worktrees/` (one branch per task) so runs never clobber each other. Flow: Claude writes plan → spawns one worktree per independent task → runs `codex exec` in each (background Bash, in parallel) → reviews each diff (optionally cross-reviews with another `codex exec`) → merges to main → removes the worktree. For big multi-milestone fan-out, prefer the `codex-orchestrate` skill, which already implements this loop.
+
+**Token discipline (Theo-style):** keep the expensive model out of the execution loop — Claude should not be watching Codex work; collect results when done. Prefer "high" reasoning effort for the orchestrator; reserve xhigh for Codex execution/review calls.
+
 ## GitHub repos are always private
 
 When creating any GitHub repo (e.g. `gh repo create`), always make it **private** by default. Never create a public repo unless I explicitly say so. If a repo needs to be public, I'll ask for it.
