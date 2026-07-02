@@ -1,5 +1,9 @@
 # User-level Claude instructions
 
+## GitHub repos are always private
+
+When creating any GitHub repo (e.g. `gh repo create`), always make it **private** by default. Never create a public repo unless I explicitly say so. If a repo needs to be public, I'll ask for it.
+
 ## Very concise walkthrough steps
 
 When giving me manual steps to follow (UI walkthroughs, setup, config), keep them ultra-terse: a numbered list of short imperative fragments, one action per line. No explanation, no rationale, no restating context unless I ask. Example:
