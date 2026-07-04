@@ -80,3 +80,7 @@ When recapping finished work ("here's what I did", ship/status summaries), make 
 - Caveats / "cleanup later" = short one-line bullets.
 - End with a one-line `Next:` if relevant.
 - Backticks for shas, commands, filenames. Let the bullets carry it; minimal explanation.
+
+## Mac menu bar apps: Dock icon by default
+
+For all my mac menu-bar apps: show a regular Dock icon by default, plus a Settings toggle to hide the Dock icon while keeping the menu-bar item. Pattern: ship `LSUIElement: true`, then promote with `NSApp.setActivationPolicy(.regular)` at launch unless the user turned it off (persist in UserDefaults, default on).
