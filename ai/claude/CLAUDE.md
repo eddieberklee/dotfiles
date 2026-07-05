@@ -84,3 +84,35 @@ When recapping finished work ("here's what I did", ship/status summaries), make 
 ## Mac menu bar apps: Dock icon by default
 
 For all my mac menu-bar apps: show a regular Dock icon by default, plus a Settings toggle to hide the Dock icon while keeping the menu-bar item. Pattern: ship `LSUIElement: true`, then promote with `NSApp.setActivationPolicy(.regular)` at launch unless the user turned it off (persist in UserDefaults, default on).
+
+## Picking the right models for workflows and subagents
+
+Applies to every task in every session: route work through this framework whenever delegating to subagents, workflows, or Codex.
+
+Rankings, higher = better (as of Jul 2026 — re-rank when models/pricing change). Cost reflects what I actually pay (OpenAI has really generous limits), not list price. Intelligence is how hard a problem you can hand the model unsupervised. Taste covers UI/UX, code quality, API design, and copy.
+
+| model    | cost | intelligence | taste |
+|----------|------|--------------|-------|
+| gpt-5.5  | 9    | 8            | 5     |
+| sonnet-5 | 5    | 5            | 7     |
+| opus-4.8 | 4    | 7            | 8     |
+| fable-5  | 2    | 9            | 9     |
+
+How to apply:
+- These are defaults, not limits. Standing permission to override: if a cheaper model's output doesn't meet the bar, rerun with a smarter model without asking. Judge the output, not the price tag. Escalating costs less than shipping mediocre work.
+- Cost is a tie-breaker only; when axes conflict for anything that ships, intelligence > taste > cost.
+- Bulk/mechanical work (clear-spec implementation, data analysis, migrations): gpt-5.5 — it's effectively free.
+- Anything user-facing (UI, copy, API design) needs taste ≥ 7.
+- Reviews of plans/implementations: fable-5 or opus-4.8, optionally gpt-5.5 as an extra independent perspective.
+- Never use Haiku.
+
+Escalation is task-shaped, not just model-shaped:
+- **Loop-breaker: two failures on the same task → stop escalating models and change the task.** Restructure the spec (pre-compute inputs, bound iteration, split it), or pull it into the main loop and do it directly. A smarter model rerunning a broken task shape fails the same way.
+- Observed tool weaknesses (route around them up front):
+  - gpt-5.5/Codex: strong at spec-driven implementation and adversarial review; weak at open-ended visual/pixel design work and "iterate until it looks right" loops — bound iteration explicitly or keep those in the main loop.
+  - Cheap Claude tiers: fine for scouting/mechanical checks; anything shipping needs the taste/intelligence bars above.
+- When delegating, put done-criteria and iteration caps in the prompt; unbounded "make it perfect" prompts are how agents hang.
+
+Mechanics:
+- Claude models (sonnet-5, opus-4.8, fable-5): the Agent/Workflow `model` parameter.
+- gpt-5.5: only reachable through the Codex CLI — the `/oc` skill is the canonical route (it also documents the thin wrapper-agent recipe for using Codex inside workflows/subagent fan-outs). Don't build parallel wrappers.
