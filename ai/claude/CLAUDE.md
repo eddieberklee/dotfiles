@@ -85,6 +85,12 @@ When recapping finished work ("here's what I did", ship/status summaries), make 
 
 For all my mac menu-bar apps: show a regular Dock icon by default, plus a Settings toggle to hide the Dock icon while keeping the menu-bar item. Pattern: ship `LSUIElement: true`, then promote with `NSApp.setActivationPolicy(.regular)` at launch unless the user turned it off (persist in UserDefaults, default on).
 
+## Shell / harness gotchas (this machine, field-tested)
+
+- zsh treats a bare word starting with `=` as `=command` expansion — `echo ===` / `echo ===LABEL` fails with "== not found". Quote it (`echo "==="`) or use another separator.
+- Chained `sleep N; cmd` is blocked by a hook. To wait on a condition, run a background `until`-loop task and rely on task auto-completion notifications instead of polling with sleeps.
+- No ImageMagick installed; Pillow 12.x (`python3` + PIL) is the image tool of record. macOS-native helpers: `iconutil -c icns <dir>.iconset` (deterministic output), `sips -s format png` for icns/format conversion.
+
 ## Picking the right models for workflows and subagents
 
 Applies to every task in every session: route work through this framework whenever delegating to subagents, workflows, or Codex.
