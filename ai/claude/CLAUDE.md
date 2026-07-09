@@ -73,13 +73,33 @@ Be terse. Cut filler, preamble, hedging, and restating the question. Short sente
 
 ## Concise completion / status recaps
 
-When recapping finished work ("here's what I did", ship/status summaries), make it terse and scannable, not prose:
-- Lead with a one-line headline, e.g. `Shipped to main: \`<sha>\`.`
-- "What changed" = short **one-line** bullets, one idea each — not 1–2 sentence bullets.
-- Collapse all verification into a single line: `Passed: tsc, eslint, tests, prod build, screenshot.` — never a sentence per check.
-- Caveats / "cleanup later" = short one-line bullets.
-- End with a one-line `Next:` if relevant.
-- Backticks for shas, commands, filenames. Let the bullets carry it; minimal explanation.
+When recapping finished work ("here's what I did", ship/status summaries), make it terse and scannable, not prose. Ruthlessly condense: if two lines cover related ground (e.g. code review + verification), merge them into one line.
+
+- **Section labels:** wrap in backticks — not bold, not `##` headers. Inline code renders with a background tint, which is the visual separator I want. Keep labels to 1–3 words: `Root cause`, `Fix`, `Verified`, `Shipped`, `Actionable`.
+- **Separators:** use a middle dot `·` between clauses on a label line. Not dashes. Reserve `—` for a genuine em-dash aside inside a sentence.
+- **Indenting a key block:** use a blockquote (`>`). It keeps successive/wrapped lines indented; plain leading spaces don't survive wrapping.
+- **Actionables:** label the section `Actionable`, then put *each* actionable in its **own separate blockquote**, marked `[]` (not `[ ]`). Only genuinely actionable choices get `[]` — context, rationale, and already-decided things are plain prose, never a checkbox.
+- **Verification:** collapse into a single line. Never a sentence per check.
+- Backticks for shas, commands, filenames, paths, values. No long postamble after the recap.
+
+Shape:
+
+```
+`Root cause` · One or two sentences of prose. No bullets.
+
+> `Fix` · What changed and why, in a sentence or two. The blockquote keeps
+> wrapped lines indented.
+
+`Verified` · 3 Codex rounds (diagnose → red-team) · WKWebView: seam −2 → +13 · `validate` green · before/after at `/tmp/x.png`
+
+`Shipped` · `d8a7a1a` deployed, app relaunched.
+
+Why I chose X: one line of rationale, as prose.
+
+`Actionable`
+
+> [] Switch to Y instead — say the word and I'll take that route.
+```
 
 ## Mac menu bar apps: Dock icon by default
 
