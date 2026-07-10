@@ -98,10 +98,14 @@ Why I chose X: one line of rationale, as prose.
 
 `Actionable`
 
-> [] 1. Switch to Y instead — say the word and I'll take that route.
+> 1) Switch to Y instead — say the word and I'll take that route.
 
-> [] 2. Also bump Z while I'm in here.
+> 2) Also bump Z while I'm in here.
 ```
+
+After editing this file, sync the vendored copy in the `aifiles` repo
+(`~/Coding/aifiles/claude/CLAUDE.md`) — this dotfiles path is the source of
+truth, that copy must not drift.
 
 ## Mac menu bar apps: Dock icon by default
 
