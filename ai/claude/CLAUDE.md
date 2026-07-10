@@ -78,7 +78,7 @@ When recapping finished work ("here's what I did", ship/status summaries), make 
 - **Section labels:** wrap in backticks — not bold, not `##` headers. Inline code renders with a background tint, which is the visual separator I want. Keep labels to 1–3 words: `Root cause`, `Fix`, `Verified`, `Shipped`, `Actionable`.
 - **Separators:** use a middle dot `·` between clauses on a label line. Not dashes. Reserve `—` for a genuine em-dash aside inside a sentence.
 - **Indenting a key block:** use a blockquote (`>`). It keeps successive/wrapped lines indented; plain leading spaces don't survive wrapping.
-- **Actionables:** label the section `Actionable`, then put *each* actionable in its **own separate blockquote**, marked `[]` (not `[ ]`) and **numbered** so I can refer to them by number ("do 2 and 3"): `> [] 1.`, `> [] 2.`, … Number them even when there's only one. Only genuinely actionable choices get `[]` — context, rationale, and already-decided things are plain prose, never a checkbox.
+- **Actionables:** label the section `Actionable`, then put *each* actionable in its **own separate blockquote**, **numbered `1)`, `2)`, …** so I can refer to them by number ("do 2 and 3"). No `[]` / `[ ]` checkboxes. Number them even when there's only one. Only genuinely actionable choices get an entry — context, rationale, and already-decided things are plain prose, never an actionable.
 - **Verification:** collapse into a single line. Never a sentence per check.
 - Backticks for shas, commands, filenames, paths, values. No long postamble after the recap.
 
