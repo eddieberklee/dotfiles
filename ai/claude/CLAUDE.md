@@ -98,7 +98,9 @@ Why I chose X: one line of rationale, as prose.
 
 `Actionable`
 
-> [] Switch to Y instead — say the word and I'll take that route.
+> [] 1. Switch to Y instead — say the word and I'll take that route.
+
+> [] 2. Also bump Z while I'm in here.
 ```
 
 ## Mac menu bar apps: Dock icon by default
