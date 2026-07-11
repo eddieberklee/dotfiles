@@ -148,3 +148,19 @@ Escalation is task-shaped, not just model-shaped:
 Mechanics:
 - Claude models (sonnet-5, opus-4.8, fable-5): the Agent/Workflow `model` parameter.
 - gpt-5.5: only reachable through the Codex CLI — the `/oc` skill is the canonical route (it also documents the thin wrapper-agent recipe for using Codex inside workflows/subagent fan-outs). Don't build parallel wrappers.
+
+## Project hub (coding-dashboard) — keep it updated
+
+The central tracker for all ~/Coding projects lives at the coding-dashboard hub
+(Cloudflare). The `pd` CLI is installed at `~/.local/bin/pd`; `HUB_URL`/`HUB_TOKEN`
+are exported via `~/.zshenv` (token file: `~/.config/coding-dashboard-hub.env`).
+
+After finishing meaningful work in any repo under `~/Coding`:
+- `pd todo done <id>` for hub todos the work completed (`pd todo list <project-id>` to check).
+- `pd todo add <project-id> "..."` for follow-ups discovered.
+- `pd plan append-note <project-id> "- one-line summary of what shipped"`.
+- `pd plan set-status <project-id> <idea|active|shipped|parked>` when the lifecycle stage changed.
+- Occasionally `pd scan push` (Mac only) to refresh git facts; check staleness with `pd status`.
+
+Project ids are repo names (`pd projects` to list). Don't spam: one note per work
+session, todos only for real actionable items.
