@@ -1,13 +1,13 @@
 #!/bin/sh
-# Roll a pane's Claude Code state up to its window so the tmux status bar can
-# show an indicator when ANY pane inside a window is waiting.
+# Roll a pane's shared Claude/Codex state up to its window so the tmux status
+# bar can show an indicator when ANY pane inside a window is waiting.
 #
-# Claude Code hooks set a pane-scoped @claude_state (🔔 = needs input,
-# ✅ = done) and clear it when work resumes. tmux's window-status-format can
-# only see the window's *active* pane, so a background pane's state is invisible
-# there. This script scans every pane in the window and writes the aggregate to
-# a window-scoped @claude_win_state (🔔 outranks ✅), or unsets it when no pane
-# is waiting. Call it from every hook that touches @claude_state.
+# Agent hooks set the historically named pane-scoped @claude_state (🔔 = needs
+# input, ✅ = done) and clear it when work resumes. tmux's window-status-format
+# can only see the window's *active* pane, so a background pane's state is
+# invisible there. This script scans every pane in the window and writes the
+# aggregate to a window-scoped @claude_win_state (🔔 outranks ✅), or unsets it
+# when no pane is waiting. Call it from every hook that touches @claude_state.
 #
 # Usage: tmux-claude-window-rollup [pane_id]   (defaults to $TMUX_PANE)
 
