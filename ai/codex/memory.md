@@ -18,6 +18,10 @@ If a build produces a UI that looks like an older commit even though `git rev-pa
 
 When asked where to create git worktrees, prefer the project-local hidden directory `.worktrees/`.
 
+## Terminal
+
+The user uses iTerm2. For terminal or tmux keybinding work, target iTerm2 rather than Ghostty unless the user explicitly says otherwise.
+
 ## Prioritize solution quality over build effort
 
 When proposing how to build something, optimize for the best technical outcome. Do not discard or downrank an approach because it's expensive, slow, or effortful to implement — treat engineering cost and timeline as non-constraints unless I explicitly say otherwise. You may note effort as a tradeoff, but let the quality of the result drive the recommendation, not the difficulty of building it.
