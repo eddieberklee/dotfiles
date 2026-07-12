@@ -1,0 +1,28 @@
+#!/bin/sh
+# Set or clear the shared Claude/Codex state shown in tmux pane borders and
+# window tabs. The existing tmux UI uses @claude_state for historical reasons;
+# both agents write to it so they get identical styling.
+
+action="${1:-clear}"
+pane="${2:-$TMUX_PANE}"
+
+[ -n "$pane" ] || exit 0
+command -v tmux >/dev/null 2>&1 || exit 0
+
+case "$action" in
+  attention)
+    tmux set -p -t "$pane" @claude_state '🔔' 2>/dev/null
+    ;;
+  done)
+    tmux set -p -t "$pane" @claude_state '✅' 2>/dev/null
+    ;;
+  clear)
+    tmux set -p -t "$pane" -u @claude_state 2>/dev/null
+    ;;
+  *)
+    exit 2
+    ;;
+esac
+
+sh /Users/edlee/dotfiles/rc/tmux-claude-window-rollup "$pane" 2>/dev/null
+exit 0

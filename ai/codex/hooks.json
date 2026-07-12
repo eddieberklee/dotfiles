@@ -1,0 +1,81 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/edlee/.codex/bin/sync-claude-skills-to-codex >> /Users/edlee/.codex/log/claude-skills-sync.log 2>&1",
+            "timeout": 10,
+            "statusMessage": "Syncing Claude skills"
+          },
+          {
+            "type": "command",
+            "command": "sh /Users/edlee/dotfiles/rc/tmux-agent-state clear",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "^Bash$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"/Users/edlee/.agent-hooks/block-rm.py\"",
+            "timeout": 5,
+            "statusMessage": "Checking command safety"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh /Users/edlee/dotfiles/rc/tmux-agent-state attention",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh /Users/edlee/dotfiles/rc/tmux-agent-state clear",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh /Users/edlee/dotfiles/rc/tmux-agent-state clear",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh /Users/edlee/dotfiles/rc/tmux-agent-state done; printf '{}'",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
