@@ -1,5 +1,21 @@
 {
   "Key Mappings": {
+    "0x48-0xc0000-0x4": {
+      "Action": 11,
+      "Apply Mode": 0,
+      "Escaping": 2,
+      "Label": "tmux: select previous window (Ctrl+Option+H)",
+      "Text": "0x1b 0x5b 0x35 0x3b 0x33 0x30 0x30 0x31 0x34 0x7e",
+      "Version": 2
+    },
+    "0x4c-0xc0000-0x25": {
+      "Action": 11,
+      "Apply Mode": 0,
+      "Escaping": 2,
+      "Label": "tmux: select next window (Ctrl+Option+L)",
+      "Text": "0x1b 0x5b 0x35 0x3b 0x33 0x30 0x30 0x31 0x35 0x7e",
+      "Version": 2
+    },
     "0x48-0x160000-0x4": {
       "Action": 11,
       "Apply Mode": 0,
