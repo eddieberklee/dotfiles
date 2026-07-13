@@ -34,13 +34,6 @@ If a build produces a UI that looks like an older commit even though `git rev-pa
 
 When asked where to create git worktrees, prefer the project-local hidden directory `.worktrees/`.
 
-## gstack
-
-Installed globally at `~/.claude/skills/gstack`. **Use gstack's `/browse` skill for all web browsing. Never call `mcp__claude-in-chrome__*` tools — route all browser automation through `/browse` instead.**
-
-Available gstack slash commands:
-`/office-hours`, `/plan-ceo-review`, `/plan-eng-review`, `/plan-design-review`, `/design-consultation`, `/design-shotgun`, `/design-html`, `/review`, `/ship`, `/land-and-deploy`, `/canary`, `/benchmark`, `/browse`, `/connect-chrome`, `/qa`, `/qa-only`, `/design-review`, `/setup-browser-cookies`, `/setup-deploy`, `/retro`, `/investigate`, `/document-release`, `/codex`, `/cso`, `/autoplan`, `/plan-devex-review`, `/devex-review`, `/careful`, `/freeze`, `/guard`, `/unfreeze`, `/gstack-upgrade`, `/learn`.
-
 ## browser-harness
 
 Direct CDP control of the real Chrome via the `browser-harness` CLI (installed with `uv tool install -e ~/Developer/browser-harness`). For setup/connection problems read `~/Developer/browser-harness/install.md`; for usage the SKILL below.
