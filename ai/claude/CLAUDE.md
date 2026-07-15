@@ -30,6 +30,22 @@ Chain it with builds: `xcodegen generate && xcodebuild ...`.
 
 If a build produces a UI that looks like an older commit even though `git rev-parse HEAD` is current, the first thing to check is whether `xcodegen generate` was skipped.
 
+## iOS simulators: reuse, don't create
+
+The sim list is cluttered with one-off devices. Default to reuse; creating a new simulator (`simctl create`) is the last resort.
+
+Priority order when picking a simulator:
+1. An already-**booted** sim of a suitable device type — use it.
+2. An existing **shutdown** sim matching the needed device/runtime — boot and reuse it. Stock-named sims (e.g. "iPhone 17 Pro") are fair game; assume project-named sims (e.g. `taskaday-2`, `album-cam-3`) belong to other work and don't hijack them.
+3. Only if nothing matches (specific runtime/device required, or true parallel isolation where every match is in use): create one — but first ask, or state why reuse was impossible.
+
+When a new sim IS justified (parallel agents each needing isolation):
+- Name it `<project>-<n>` (e.g. `note-thing-1`) so it's identifiable and reusable by later sessions on the same project.
+- Reuse your own project-named sims on later runs instead of minting `-2`, `-3`, … each time.
+- Prefer deleting a project-named sim you created once the task is done and its state doesn't matter.
+
+Periodic hygiene (only when asked): `xcrun simctl delete unavailable` plus listing project-named sims that look stale for me to approve deleting.
+
 ## Worktrees
 
 When asked where to create git worktrees, prefer the project-local hidden directory `.worktrees/`.
