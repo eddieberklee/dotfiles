@@ -50,6 +50,10 @@ Periodic hygiene (only when asked): `xcrun simctl delete unavailable` plus listi
 
 When asked where to create git worktrees, prefer the project-local hidden directory `.worktrees/`.
 
+## Paper MCP: don't delete artboards
+
+When using the Paper MCP, never just delete artboards. Always prefer creating a new artboard instead.
+
 ## browser-harness
 
 Direct CDP control of the real Chrome via the `browser-harness` CLI (installed with `uv tool install -e ~/Developer/browser-harness`). For setup/connection problems read `~/Developer/browser-harness/install.md`; for usage the SKILL below.
