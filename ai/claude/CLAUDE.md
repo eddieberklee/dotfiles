@@ -4,6 +4,12 @@
 
 When creating any GitHub repo (e.g. `gh repo create`), always make it **private** by default. Never create a public repo unless I explicitly say so. If a repo needs to be public, I'll ask for it.
 
+## Never use GitHub Actions
+
+Do not create, add, modify, enable, trigger, rerun, inspect, debug, or rely on GitHub Actions workflows unless I explicitly request GitHub Actions in the current task. Never add files under `.github/workflows/` by default. Run builds, tests, formatting, releases, and all other checks locally.
+
+Ignore existing GitHub Actions failures, badges, checks, and workflow runs. Do not investigate or repair them unless I explicitly ask. If something cannot be verified locally, report it as unverified instead of falling back to GitHub Actions.
+
 ## Very concise walkthrough steps
 
 When giving me manual steps to follow (UI walkthroughs, setup, config), keep them ultra-terse: a numbered list of short imperative fragments, one action per line. No explanation, no rationale, no restating context unless I ask. Example:
@@ -14,7 +20,7 @@ When giving me manual steps to follow (UI walkthroughs, setup, config), keep the
 
 ## Always build Apple apps locally
 
-Always try to build mac / iOS / watchOS / any Apple apps **locally** rather than relying on CI. Remote CI (e.g. GitHub Actions `macos-latest` runners) is not a dependable signal — it can be down or blocked (e.g. a billing/spending-limit failure makes every run fail in a few seconds before any build step). So when a change needs a native rebuild, do the build on this machine and verify it there. For Tauri/mac that's `npm run tauri:build:mac` (from `apps/mac`); for xcodegen apps it's `xcodegen generate && xcodebuild ...` (see below). Treat a green local build as the source of truth; only fall back to CI when a local build is impossible (e.g. signing/notarization secrets that only live in CI).
+Always build mac / iOS / watchOS / any Apple apps **locally**. Remote CI is not a dependable signal — it can be down or blocked (e.g. a billing/spending-limit failure makes every run fail in a few seconds before any build step). When a change needs a native rebuild, build it on this machine and verify it there. For Tauri/mac that's `npm run tauri:build:mac` (from `apps/mac`); for xcodegen apps it's `xcodegen generate && xcodebuild ...` (see below). Treat a green local build as the source of truth. If a local build is impossible, report what remains unverified; do not fall back to GitHub Actions.
 
 ## iOS / xcodegen repos
 
