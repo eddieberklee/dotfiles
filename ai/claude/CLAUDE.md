@@ -177,3 +177,18 @@ After finishing meaningful work in any repo under `~/Coding`:
 
 Project ids are repo names (`pd projects` to list). Don't spam: one note per work
 session, todos only for real actionable items.
+
+## Project journal in README (automatic)
+
+Every repo under `~/Coding` keeps a short visual journal in its README showing how the project evolved. Add entries **proactively, without being asked**, whenever a milestone lands: first working build, major feature shipped, visible UI change, redesign, v1/launch. Milestones only — not every commit; at most one entry per work session.
+
+Each entry:
+1. Capture an image of the current state (sim/app/window screenshot, web page, rendered output; terminal capture for CLI tools). Save to `docs/journal/YYYY-MM-DD-<slug>.png` in the repo.
+2. Add to a `## Journal` section at the end of `README.md` (create it if missing), newest entry first:
+
+   ```
+   ### 2026-07-19 14:32 — First working build: menu bar item + live CPU readout
+   <img src="docs/journal/2026-07-19-first-build.png" width="480">
+   ```
+
+3. Description stays to one line. Commit the image together with the README change.
