@@ -33,6 +33,9 @@ else
   tmux set -w -t "$win" -u @claude_win_state 2>/dev/null
 fi
 
+# State emoji change tab widths, so recompute the two-line tab wrap.
+sh /Users/edlee/dotfiles/rc/tmux-status-wrap 2>/dev/null
+
 # Repaint the status line immediately instead of waiting for status-interval.
 tmux refresh-client -S 2>/dev/null
 exit 0

@@ -1,0 +1,56 @@
+#!/bin/sh
+# Wrap the tmux window tabs onto a second status line when they overflow the
+# client width: fill status line 0, put the remaining tabs on line 1. Revert
+# to the normal single-line status when everything fits again.
+#
+# Recomputes per attached session (status/status-format are session options,
+# so other sessions are untouched). Driven by hooks in ~/.tmux.conf and by
+# tmux-claude-window-rollup (state emoji change tab widths); safe to run at
+# any time.
+
+command -v tmux >/dev/null 2>&1 || exit 0
+
+# Tab bodies copied verbatim from tmux 3.6a's default status-format[0] so the
+# bell/current styles and mouse-click ranges keep working. Each gets wrapped
+# in an #{e|<:...} / #{e|>=:...} window_index condition to pick its line.
+TAB='#[range=window|#{window_index} #{E:window-status-style}#{?#{&&:#{window_last_flag},#{!=:#{E:window-status-last-style},default}}, #{E:window-status-last-style},}#{?#{&&:#{window_bell_flag},#{!=:#{E:window-status-bell-style},default}}, #{E:window-status-bell-style},#{?#{&&:#{||:#{window_activity_flag},#{window_silence_flag}},#{!=:#{E:window-status-activity-style},default}}, #{E:window-status-activity-style},}}]#[push-default]#{T:window-status-format}#[pop-default]#[norange default]#{?loop_last_flag,,#{window-status-separator}}'
+CUR='#[range=window|#{window_index} list=focus #{?#{!=:#{E:window-status-current-style},default},#{E:window-status-current-style},#{E:window-status-style}}#{?#{&&:#{window_last_flag},#{!=:#{E:window-status-last-style},default}}, #{E:window-status-last-style},}#{?#{&&:#{window_bell_flag},#{!=:#{E:window-status-bell-style},default}}, #{E:window-status-bell-style},#{?#{&&:#{||:#{window_activity_flag},#{window_silence_flag}},#{!=:#{E:window-status-activity-style},default}}, #{E:window-status-activity-style},}}]#[push-default]#{T:window-status-current-format}#[pop-default]#[norange list=on default]#{?loop_last_flag,,#{window-status-separator}}'
+LEFT='#[align=left range=left #{E:status-left-style}]#[push-default]#{T;=/#{status-left-length}:status-left}#[pop-default]#[norange default]'
+RIGHT='#[nolist align=right range=right #{E:status-right-style}]#[push-default]#{T;=/#{status-right-length}:status-right}#[pop-default]#[norange default]'
+
+# Key sessions by #{session_id} ($N): set-option/show-options -t takes a
+# target-PANE, so a bare numeric session name would resolve to a window index
+# in the current session instead. $-ids are unambiguous.
+tmux list-clients -F '#{session_id} #{client_width}' 2>/dev/null |
+awk '{ if (!($1 in w) || $2 < w[$1]) w[$1] = $2 } END { for (s in w) print s, w[s] }' |
+while read -r sess width; do
+  case $width in '' | *[!0-9]*) continue ;; esac
+
+  # Estimate each tab's rendered width — " #I: #W " + 1-cell separator, +3
+  # when a Claude state emoji (2 cells + space) is showing — and find the
+  # first window that would overflow line 0.
+  split=$(
+    tmux list-windows -t "$sess" -F '#{window_index} #{?#{@claude_win_state},s,-} #{n:window_name}' 2>/dev/null |
+    awk -v width="$width" '
+      BEGIN { used = 5 }                       # status-left "     "
+      { w = length($1) + $3 + 5
+        if ($2 == "s") w += 3
+        used += w
+        if (used > width) { print $1; exit } }'
+  )
+
+  if [ -z "$split" ]; then
+    # Everything fits: back to the stock single-line status.
+    tmux set -u -t "$sess" status \; set -u -t "$sess" 'status-format[0]' \; set -u -t "$sess" 'status-format[1]' 2>/dev/null
+    continue
+  fi
+  # Keep at least one tab on line 0 even on absurdly narrow clients.
+  [ "$split" -gt 0 ] || split=1
+
+  F0="$LEFT#[list=on align=left]#[list=left-marker]<#[list=right-marker]>#[list=on]#{W:#{?#{e|<:#{window_index},$split},$TAB,},#{?#{e|<:#{window_index},$split},$CUR,}}$RIGHT"
+  F1="#[align=left]     #[norange default]#[list=on align=left]#[list=left-marker]<#[list=right-marker]>#[list=on]#{W:#{?#{e|>=:#{window_index},$split},$TAB,},#{?#{e|>=:#{window_index},$split},$CUR,}}"
+
+  tmux set -t "$sess" 'status-format[0]' "$F0" \; set -t "$sess" 'status-format[1]' "$F1" \; set -t "$sess" status 2 2>/dev/null
+done
+
+exit 0
