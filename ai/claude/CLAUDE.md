@@ -126,6 +126,10 @@ After editing this file, sync the vendored copy in the `aifiles` repo
 (`~/Coding/aifiles/claude/CLAUDE.md`) — this dotfiles path is the source of
 truth, that copy must not drift.
 
+## Mac App Groups: always team-ID-prefixed
+
+For all my macOS apps (Developer ID, manually codesigned, no provisioning profile): App Group IDs MUST be prefixed with the team ID, e.g. `6643C3LRJA.group.com.example.app` — never bare `group.*`. macOS 27+ hard-denies group-container access for non-team-prefixed groups on profile-less Developer ID apps (no consent prompt; `tccutil reset` doesn't help). Symptoms: silent file read/write failures in `~/Library/Group Containers/...`, "You don't have permission to save the file", menu bar apps falling back to placeholder icons. Terminal-run test binaries are exempt from the check, so standalone repros misleadingly pass — test inside the real app. This is macOS-only; iOS app groups must stay `group.*` (authorized via provisioning profiles). When renaming an existing group, migrate the old container's files + `Library/Preferences/<group>.plist` (renamed to the new suite name) into the new container.
+
 ## Mac menu bar apps: Dock icon by default
 
 For all my mac menu-bar apps: show a regular Dock icon by default, plus a Settings toggle to hide the Dock icon while keeping the menu-bar item. Pattern: ship `LSUIElement: true`, then promote with `NSApp.setActivationPolicy(.regular)` at launch unless the user turned it off (persist in UserDefaults, default on).
