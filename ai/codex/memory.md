@@ -42,3 +42,14 @@ Multiple agents (Codex, Claude Code, their subagents) run at once and **share th
 - **Serialize stateful UI** (logins, cookie/profile writes, modal dialogs) — all tabs share one profile.
 - A new `BU_NAME`'s first attach triggers Chrome's "Allow remote debugging?" popup (Chrome 144+) — surface that ask; don't silently fail.
 - Need true isolation / headless / CI: set `BROWSER_USE_API_KEY`, then `start_remote_daemon("<name>")` → each `BU_NAME` gets its own cloud browser (billed).
+
+## Mac apps needing TCC permissions: sign with a stable identity
+
+Any macOS app I build that needs **Accessibility, Screen Recording, or Input Monitoring** must be signed with a **stable identity** — my Apple Development cert (team `6643C3LRJA`) or a Developer ID — **never ad-hoc** (`CODE_SIGN_IDENTITY: "-"`).
+
+Why: TCC binds a grant to the app's Designated Requirement. Ad-hoc → the DR is a literal cdhash that changes every rebuild, so each rebuild looks like a new app and the permission resets (re-grant every build). A real cert → cert-based DR (bundle id + cert) that survives rebuilds, so the grant sticks.
+
+- `project.yml`/build settings: `CODE_SIGN_IDENTITY: "Apple Development"`, `CODE_SIGN_STYLE: Manual`, `DEVELOPMENT_TEAM: 6643C3LRJA` (local macOS dev needs NO provisioning profile).
+- Install with `ditto` (preserves the signature; `cp`/`rsync` can break it); keep ONE canonical copy in `/Applications` and run it from there (stray DerivedData/worktree copies make duplicate TCC rows).
+- Verify: `codesign -d --requirements - "<App>"` shows a cert-based `designated =>` (has `certificate leaf[subject.CN] = "Apple Development…"`), not cdhash/adhoc.
+- Broken grant recovery: `tccutil reset Accessibility <bundleid>` (and `ScreenCapture`/`ListenEvent`), reopen, re-grant once. Accessibility is only re-read on relaunch (quit & reopen).
