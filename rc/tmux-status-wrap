@@ -1,10 +1,11 @@
 #!/bin/sh
-# Wrap the tmux window tabs onto a second status line when they overflow the
-# client width: fill status line 0, put the remaining tabs on line 1. Revert
-# to the normal single-line status when everything fits again.
+# Wrap the tmux window tabs onto extra status lines (up to THREE) when they
+# overflow the client width: fill line 0, spill onto line 1, then line 2.
+# Revert to the normal single-line status when everything fits again.
 #
-# Recomputes per attached session (status/status-format are session options,
-# so other sessions are untouched). Driven by hooks in ~/.tmux.conf and by
+# Shared between the Mac and the VPS (both source rc/tmux.conf). Recomputes
+# per attached session (status/status-format are session options, so other
+# sessions are untouched). Driven by hooks in rc/tmux.conf and by
 # tmux-claude-window-rollup (state emoji change tab widths); safe to run at
 # any time.
 
@@ -18,6 +19,9 @@ CUR='#[range=window|#{window_index} list=focus #{?#{!=:#{E:window-status-current
 LEFT='#[align=left range=left #{E:status-left-style}]#[push-default]#{T;=/#{status-left-length}:status-left}#[pop-default]#[norange default]'
 RIGHT='#[nolist align=right range=right #{E:status-right-style}]#[push-default]#{T;=/#{status-right-length}:status-right}#[pop-default]#[norange default]'
 
+# Continuation-line indent matching status-left's width.
+INDENT='#[align=left]     #[norange default]'
+
 # Key sessions by #{session_id} ($N): set-option/show-options -t takes a
 # target-PANE, so a bare numeric session name would resolve to a window index
 # in the current session instead. $-ids are unambiguous.
@@ -28,29 +32,42 @@ while read -r sess width; do
 
   # Estimate each tab's rendered width — " #I: #W " + 1-cell separator, +3
   # when a Claude state emoji (2 cells + space) is showing — and find the
-  # first window that would overflow line 0.
-  split=$(
+  # first window index of line 1 (s1) and, if needed, line 2 (s2).
+  splits=$(
     tmux list-windows -t "$sess" -F '#{window_index} #{?#{@claude_win_state},s,-} #{n:window_name}' 2>/dev/null |
     awk -v width="$width" '
-      BEGIN { used = 5 }                       # status-left "     "
+      BEGIN { used = 5; s1 = ""; s2 = "" }     # 5 = status-left width
       { w = length($1) + $3 + 5
         if ($2 == "s") w += 3
         used += w
-        if (used > width) { print $1; exit } }'
+        if (used > width) {
+          if (s1 == "")      { s1 = $1; used = 5 + w }
+          else if (s2 == "") { s2 = $1; exit }
+        } }
+      END { print s1 "|" s2 }'
   )
+  s1=${splits%%|*}; s2=${splits#*|}
 
-  if [ -z "$split" ]; then
-    # Everything fits: back to the stock single-line status.
-    tmux set -u -t "$sess" status \; set -u -t "$sess" 'status-format[0]' \; set -u -t "$sess" 'status-format[1]' 2>/dev/null
+  if [ -z "$s1" ]; then
+    # Everything fits: back to the stock single-line status. Unset the WHOLE
+    # status-format array — index-wise unsets can strand an empty
+    # status-format[0], which renders as a blank (invisible) bar.
+    tmux set -u -t "$sess" status \; set -u -t "$sess" status-format 2>/dev/null
     continue
   fi
   # Keep at least one tab on line 0 even on absurdly narrow clients.
-  [ "$split" -gt 0 ] || split=1
+  [ "$s1" -gt 0 ] || s1=1
 
-  F0="$LEFT#[list=on align=left]#[list=left-marker]<#[list=right-marker]>#[list=on]#{W:#{?#{e|<:#{window_index},$split},$TAB,},#{?#{e|<:#{window_index},$split},$CUR,}}$RIGHT"
-  F1="#[align=left]     #[norange default]#[list=on align=left]#[list=left-marker]<#[list=right-marker]>#[list=on]#{W:#{?#{e|>=:#{window_index},$split},$TAB,},#{?#{e|>=:#{window_index},$split},$CUR,}}"
-
-  tmux set -t "$sess" 'status-format[0]' "$F0" \; set -t "$sess" 'status-format[1]' "$F1" \; set -t "$sess" status 2 2>/dev/null
+  F0="$LEFT#[list=on align=left]#[list=left-marker]<#[list=right-marker]>#[list=on]#{W:#{?#{e|<:#{window_index},$s1},$TAB,},#{?#{e|<:#{window_index},$s1},$CUR,}}$RIGHT"
+  if [ -n "$s2" ]; then
+    C1="#{&&:#{e|>=:#{window_index},$s1},#{e|<:#{window_index},$s2}}"
+    F1="$INDENT#[list=on align=left]#[list=left-marker]<#[list=right-marker]>#[list=on]#{W:#{?$C1,$TAB,},#{?$C1,$CUR,}}"
+    F2="$INDENT#[list=on align=left]#[list=left-marker]<#[list=right-marker]>#[list=on]#{W:#{?#{e|>=:#{window_index},$s2},$TAB,},#{?#{e|>=:#{window_index},$s2},$CUR,}}"
+    tmux set -t "$sess" 'status-format[0]' "$F0" \; set -t "$sess" 'status-format[1]' "$F1" \; set -t "$sess" 'status-format[2]' "$F2" \; set -t "$sess" status 3 2>/dev/null
+  else
+    F1="$INDENT#[list=on align=left]#[list=left-marker]<#[list=right-marker]>#[list=on]#{W:#{?#{e|>=:#{window_index},$s1},$TAB,},#{?#{e|>=:#{window_index},$s1},$CUR,}}"
+    tmux set -t "$sess" 'status-format[0]' "$F0" \; set -t "$sess" 'status-format[1]' "$F1" \; set -u -t "$sess" 'status-format[2]' \; set -t "$sess" status 2 2>/dev/null
+  fi
 done
 
 exit 0
