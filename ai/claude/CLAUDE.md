@@ -134,6 +134,18 @@ For all my macOS apps (Developer ID, manually codesigned, no provisioning profil
 
 For all my mac menu-bar apps: show a regular Dock icon by default, plus a Settings toggle to hide the Dock icon while keeping the menu-bar item. Pattern: ship `LSUIElement: true`, then promote with `NSApp.setActivationPolicy(.regular)` at launch unless the user turned it off (persist in UserDefaults, default on).
 
+## Mac apps needing TCC permissions: sign with a stable identity
+
+For any macOS app I build that needs **Accessibility, Screen Recording, or Input Monitoring**, sign it with a **stable code-signing identity** — my Apple Development cert (team `6643C3LRJA`) or a Developer ID — **never ad-hoc** (`CODE_SIGN_IDENTITY: "-"`).
+
+Why: TCC binds a grant to the app's *Designated Requirement*. Ad-hoc signing makes the DR a literal cdhash, which changes on **every rebuild**, so each rebuild looks like a new app and the permission grant resets — forcing a re-grant every single build. A real cert gives a cert-based DR (bundle id + cert), so rebuilds satisfy the same requirement and the grant persists.
+
+Apply by default in xcodegen `project.yml` / build settings for such apps:
+- `CODE_SIGN_IDENTITY: "Apple Development"`, `CODE_SIGN_STYLE: Manual`, `DEVELOPMENT_TEAM: 6643C3LRJA` (local macOS dev needs **no** provisioning profile).
+- Install with `ditto` (preserves the signature; `cp`/`rsync` can break the seal), keep **one** canonical copy in `/Applications`, and run it from there — stray `DerivedData`/worktree build copies share the bundle id and spawn duplicate/stale TCC rows.
+- Verify: `codesign -d --requirements - "<App>"` should show a **cert-based** `designated =>` requirement (has `certificate leaf[subject.CN] = "Apple Development…"`), not a `cdhash`/adhoc one.
+- If a grant ever breaks: `tccutil reset Accessibility <bundleid>` (and `ScreenCapture` / `ListenEvent`), reopen the canonical copy, re-grant once. Accessibility grants are also only re-read on **relaunch** (quit & reopen).
+
 ## Shell / harness gotchas (this machine, field-tested)
 
 - zsh treats a bare word starting with `=` as `=command` expansion — `echo ===` / `echo ===LABEL` fails with "== not found". Quote it (`echo "==="`) or use another separator.
