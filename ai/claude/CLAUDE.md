@@ -52,6 +52,18 @@ When a new sim IS justified (parallel agents each needing isolation):
 
 Periodic hygiene (only when asked): `xcrun simctl delete unavailable` plus listing project-named sims that look stale for me to approve deleting.
 
+## Voice-to-text: never use Apple's native speech, always Whisper
+
+For any voice-to-text / dictation / transcription feature in my projects, **never use
+Apple's native speech recognition** — `SFSpeechRecognizer` / `Speech.framework` /
+iOS 26 `SpeechAnalyzer` / `SpeechTranscriber`. Its accuracy is unacceptable to me.
+**Always use Whisper** (OpenAI Whisper) via an on-device Swift/CoreML integration
+(WhisperKit, whisper.cpp / SwiftWhisper, or MLX-Whisper). Solve the model-load latency
+properly (bundle a precompiled `.mlmodelc`, pin the model outside Caches, preload in the
+background, use a small/quantized/distil model) rather than falling back to Apple speech.
+This is a hard rule — do not propose or ship Apple's native STT as a primary or fallback
+engine for my apps.
+
 ## Worktrees
 
 When asked where to create git worktrees, prefer the project-local hidden directory `.worktrees/`.
