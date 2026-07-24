@@ -14,6 +14,10 @@ Chain it with builds: `xcodegen generate && xcodebuild ...`.
 
 If a build produces a UI that looks like an older commit even though `git rev-parse HEAD` is current, the first thing to check is whether `xcodegen generate` was skipped.
 
+## Voice-to-text: never Apple native, always Whisper
+
+For any voice-to-text / dictation / transcription feature in my projects, never use Apple's native speech recognition (`SFSpeechRecognizer` / `Speech.framework` / iOS 26 `SpeechAnalyzer`/`SpeechTranscriber`) — its accuracy is unacceptable to me. Always use Whisper (WhisperKit, whisper.cpp/SwiftWhisper, or MLX-Whisper) on-device. Fix the model-load latency properly (bundle a precompiled `.mlmodelc`, pin the model outside Caches, background-preload, use a small/quantized/distil model) instead of falling back to Apple speech. Hard rule — never propose or ship Apple native STT as primary or fallback.
+
 ## Worktrees
 
 When asked where to create git worktrees, prefer the project-local hidden directory `.worktrees/`.
